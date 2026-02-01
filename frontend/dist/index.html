@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Angular SQL Demo</title>
+</head>
+<body>
+  <h2>Add User</h2>
+  <input id="name" placeholder="Name">
+  <input id="email" placeholder="Email">
+  <button onclick="addUser()">Add</button>
+
+  <h2>Users</h2>
+  <button onclick="loadUsers()">Load Users</button>
+  <ul id="list"></ul>
+
+<script>
+function addUser() {
+  fetch("http://localhost:3000/users", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name: name.value,
+      email: email.value
+    })
+  }).then(() => alert("User added"));
+}
+
+function loadUsers() {
+  fetch("http://localhost:3000/users")
+    .then(res => res.json())
+    .then(data => {
+      list.innerHTML = "";
+      data.forEach(u => {
+        list.innerHTML += `<li>${u.name} - ${u.email}</li>`;
+      });
+    });
+}
+</script>
+</body>
+</html>
