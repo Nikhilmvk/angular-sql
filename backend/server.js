@@ -40,5 +40,19 @@ app.post("/users", async (req, res) => {
     res.status(500).send(err.message);
   }
 });
+app.delete("/users/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const pool = await sql.connect(config);
+    await pool.request()
+      .input("id", sql.Int, id)
+      .query("DELETE FROM Users WHERE id = @id");
+
+    res.send("User deleted");
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
 
 app.listen(3000, () => console.log("Backend running on port 3000"));
