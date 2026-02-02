@@ -15,20 +15,24 @@
 
 <script>
 function addUser() {
-  fetch("http://192.168.1.33:3000/users", {
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+
+  fetch("http://172.16.2.13:3000/users", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      name: name.value,
-      email: email.value
-    })
-  }).then(() => alert("User added"));
+    body: JSON.stringify({ name, email })
+  }).then(() => {
+    alert("User added");
+    loadUsers();  // auto-refresh the user list after adding
+  });
 }
 
 function loadUsers() {
-  fetch("http://192.168.1.33:3000/users")
+  fetch("http://172.16.2.13:3000/users")
     .then(res => res.json())
     .then(data => {
+      const list = document.getElementById("list");
       list.innerHTML = "";
       data.forEach(u => {
         list.innerHTML += `<li>${u.name} - ${u.email}</li>`;
@@ -36,5 +40,6 @@ function loadUsers() {
     });
 }
 </script>
+
 </body>
 </html>

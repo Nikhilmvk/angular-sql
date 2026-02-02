@@ -9,7 +9,7 @@ app.use(express.json());
 const config = {
   user: "sa",
   password: "Nikhil@12345",
-  server: "host.docker.internal",
+  server: "172.17.0.1",
   database: "AppDB",
   options: {
     encrypt: false,
